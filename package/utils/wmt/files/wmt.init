@@ -39,6 +39,9 @@ start() {
 	/usr/bin/stp_uart_launcher -p /etc/firmware 2>&1 | logger -t stp_uart_launcher &
 	echo "$!" > /var/run/stp_uart_launcher.pid
 	sleep 3
+	if [ -f /lib/modules/$(uname -r)/stp_chrdev_bt.ko ]; then
+		modprobe /lib/modules/$(uname -r)/stp_chrdev_bt.ko
+	fi
 	if [ -c /dev/wmtWifi ]; then
 		start_ap
 		return 0
